@@ -47,6 +47,13 @@ class Review {
   delete({ id }) {
     return db.query('DELETE FROM reviews WHERE id = $1', [ id ]);
   }
+
+  updateVotes({ id, helpful_votes }) {
+    return db.query(
+      `UPDATE reviews SET helpful_votes = $1 WHERE id = $2`, 
+      [ helpful_votes, id ]
+    );
+  }
 }
 
 module.exports = new Review();
