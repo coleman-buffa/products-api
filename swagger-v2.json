@@ -125,6 +125,15 @@
       }
     },
     "/products": {
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
       "get": {
         "tags": ["products"],
         "parameters": [

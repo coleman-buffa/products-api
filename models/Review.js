@@ -1,9 +1,16 @@
 const db = require('../config/connection');
 
 class Review {
-  getAll({ product_id, sort }) {
-    let orderBy = 'ORDER BY ';
+  constructor() {
+    this.offset = 10;
+  }
 
+  getAll({ product_id, sort, page }) {
+    let orderBy = 'ORDER BY ';
+    let offset = page
+      ? `OFFSET ${this.offset * page - this.offset} LIMIT ${this.offset + 1}` 
+      : '';
+  
     switch(sort) {
       case 'date':
         orderBy += 'review_date DESC';
@@ -18,9 +25,9 @@ class Review {
         orderBy += 'id';
         break;
     }
-
-    const query = `SELECT * FROM reviews WHERE product_id = $1 ${orderBy}`;
-
+  
+    const query = `SELECT * FROM reviews WHERE product_id = $1 ${orderBy} ${offset}`;
+  
     return db.query(query, [ product_id ]);
   }
 
